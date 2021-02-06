@@ -1,0 +1,18 @@
+.abilities {
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+@supports (gap: 10px) and (display: flex) {
+    .abilities__list {
+        gap: 10px;
+    }
+}
+
+@supports not ((gap: 10px) and (display: flex)) {
+    .abilities__item {
+       margin: 0 10px;
+    }
+}

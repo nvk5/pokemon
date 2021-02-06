@@ -1,0 +1,110 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 100%;
+
+    @media screen and (max-width: 767.98px) {
+        font-size: 90%;
+    }
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.2;
+    position: relative;
+    overflow-x: hidden;
+    background: repeating-linear-gradient(45deg, #f3f3f3, #fafafa 5px);
+    width: 100vw;
+
+    &.menu-open {
+        overflow: hidden;
+        
+        .nav {
+            transform: translateX(0);
+        }
+
+        .nav-burger {
+            span {
+                &:nth-child(1) {
+                    top: 18px;
+                    transform: rotate(135deg);
+                }
+    
+                &:nth-child(2) {
+                    opacity: 0;
+                    left: -60px;
+                }
+    
+                &:nth-child(3) {
+                    top: 18px;
+                    transform: rotate(-135deg);
+                }
+            }
+        }
+    }
+}
+
+ul {
+    list-style: none;
+}
+
+.img {
+    display: block;
+    max-width: 100%;
+}
+
+.link {
+    text-decoration: none;
+}
+
+.container {
+    max-width: 1140px;
+    width: 100%;
+    padding: 0 15px;
+    margin: 0 auto;
+}
+
+@media (max-width: 1199.98px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .container {
+        max-width: 720px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .container {
+        max-width: 540px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .container {
+        max-width: 100%;
+    }
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+.header {
+    background: #000;
+
+    @media screen and (max-width: 767.98px) {
+        padding: 15px;
+    }
+}

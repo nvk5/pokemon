@@ -1,0 +1,130 @@
+.pokemon {
+    display: grid;
+    grid-template: "headline headline"
+                    "image main"
+                    "extra stats"
+                    "evolution evolution" / 1fr 1fr;
+    grid-gap: 20px;
+
+    @media screen and (max-width: 991.98px) {
+        grid-template: "headline headline"
+                        "image image"
+                        "main main"
+                        "extra extra"
+                        "stats stats"
+                        "evolution evolution" / 1fr 1fr;
+    }
+
+    &__image {
+        grid-area: image;
+        width: 350px;
+        height: 350px;
+        padding: 40px;
+        box-shadow: 0 0 20px #ccc;
+        justify-self: center;
+        align-self: center;
+        border-radius: 50%;
+
+        @media screen and (max-width: 767.98px) {
+            padding: 0;
+        }
+
+        @media screen and (max-width: 575.98px) {
+            width: 250px;
+            height: 250px;
+        }
+    }
+
+    &__details--main {
+        grid-area: main;
+    }
+
+    &__details--stats {
+        grid-area: stats;
+    }
+
+    &__details--evolution {
+        grid-area: evolution;
+    }
+
+    &__details--extra {
+        grid-area: extra;
+    }
+
+    &__details--main,
+    &__details--extra {
+        display: grid;
+        grid-gap: 20px;
+    }
+
+    &__details {
+        padding: 15px;
+        box-shadow: 0 0 20px #ccc;
+        font-size: 1.25rem;
+    }
+
+    &__details-headline {
+        font-size: 25px;
+    }
+
+    &__info {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    &__go-home {
+        height: 50px;
+        font-size: 1.25rem;
+        cursor: pointer;
+        background: cornflowerblue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+
+        @media screen and (max-width: 991.98px) {
+            grid-column: 1/-1;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            transform: skew(-45deg);
+            background: #fff;
+            filter: blur(40px);
+            width: 15%;
+            height: 100%;
+            transition: left 1s ease-out;
+        }
+
+        &:hover,
+        &:focus {
+            background: darken($color: cornflowerblue, $amount: 5);
+
+            &::after {
+                left: 120%;
+            }
+        }
+    }
+
+    &__extra-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        grid-auto-rows: 40px;
+        grid-gap: 10px;
+    }
+
+    &__extra-list-item {
+        box-shadow: 0 0 3px #000;
+        text-transform: capitalize;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

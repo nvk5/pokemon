@@ -1,0 +1,48 @@
+.nav {
+
+    @media screen and (max-width: 767.98px) {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        flex-direction: column;
+        position: fixed;
+        background: #000;
+        height: 100%;
+        width: 100%;
+        z-index: 1;
+        left: 0;
+        top: 75px;
+        transform: translateX(-100%);
+        transition: transform .5s ease;
+    }
+
+    &__list {
+        display: flex;
+        position: relative;
+
+        @media screen and (max-width: 767.98px) {
+            flex-direction: column;
+        }
+
+    }
+
+    &__link {
+        font-size: 1.25rem;
+        padding: 20px;
+        text-transform: uppercase;
+        letter-spacing: 0.07rem;
+        display: block;
+        color: #fff;
+        position: relative;
+        outline: none;
+
+        &:hover,
+        &:focus {
+            text-decoration: overline;
+        }
+
+        &.active {
+            background: rgb(0, 191, 255);
+        }
+    }
+}
