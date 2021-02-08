@@ -8,6 +8,10 @@ const maxDataReached = () => ({ type: 'REACH_MAX_DATA' });
 const pokemonLoaded = data => ({ type: 'POKEMON_LOADED', payload: data });
 const updateLoadingStatus = () => ({ type: 'LOADING_STATUS_UPDATED' });
 
+const typesLoaded = data => ({ type: 'TYPES_LOADED', payload: data });
+const updateLoadingFilterStatus = () => ({ type: 'LOADING_FILTER_STATUS_UPDATED' });
+const typesFail = () => ({ type: 'TYPES_FAIL' });
+
 const pageNotFound = () => ({ type: 'PAGE_NOT_FOUND' });
 
 const toggleMenu = () => ({ type: 'MENU_TOGGLED' });
@@ -28,9 +32,12 @@ export {
     pokemonLoaded,
     pageNotFound,
     updateLoadingStatus,
+    updateLoadingFilterStatus,
     toggleMenu,
     hideMenu,
     cacheCards,
     cacheList,
-    setRedirect
+    setRedirect,
+    typesLoaded,
+    typesFail
 }

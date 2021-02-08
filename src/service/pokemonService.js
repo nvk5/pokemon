@@ -93,7 +93,7 @@ export default class PokemonService {
             return description.replace(/(\n|\f|\t|\v)/g, ' ').replace('POKéMON', 'pokemon');
         }
 
-        return this._isDataAvailable(description); 
+        return this._isDataAvailable(description);
     }
 
     getPokemonEvolution = async ({ url }) => {
@@ -120,7 +120,7 @@ export default class PokemonService {
         }
         getChain(pokemonEvolutionResult?.chain);
 
-        const getImages = async(data) => {
+        const getImages = async (data) => {
             const evolutionMatchedArrays = await Promise.all(data.map(item => this.getResource(`pokemon/${item}`)));
 
             return evolutionMatchedArrays.map(pokemon => {
@@ -131,12 +131,12 @@ export default class PokemonService {
                 }
             })
         }
-        
-        return await getImages(evolutionChain); 
+
+        return await getImages(evolutionChain);
     }
 
     getPokemonStats = data => {
-        return data.map(item => ({ [item.stat.name]: item['base_stat'] })); 
+        return data.map(item => ({ [item.stat.name]: item['base_stat'] }));
     }
 
     getPokemonStrengths = async (data) => {
@@ -146,7 +146,7 @@ export default class PokemonService {
 
         pokemonStrengthsResult.forEach(item => item['damage_relations']?.['double_damage_to'].forEach(item => strengths.add(item.name)));
 
-        return [...strengths]; 
+        return [...strengths];
     }
 
     getPokemonWeaknesses = async (data) => {
@@ -156,7 +156,7 @@ export default class PokemonService {
 
         pokemonWeaknessesResult.forEach(item => item['damage_relations']?.['double_damage_from'].forEach(item => weaknesses.add(item.name)));
 
-        return [...weaknesses]; 
+        return [...weaknesses];
     }
 
     getPokemonCategory = async ({ url }) => {
@@ -164,7 +164,7 @@ export default class PokemonService {
         const pokemonCategoryResult = await pokemonCategoryResponse.json();
         const category = pokemonCategoryResult.genera.find(item => item.language?.name === 'en')?.genus;
 
-        return this._isDataAvailable(category.replace('Pokémon', '')); 
+        return this._isDataAvailable(category.replace('Pokémon', ''));
     }
 
     getPokemonHabitat = async ({ url }) => {
@@ -172,7 +172,7 @@ export default class PokemonService {
         const pokemonHabitatResult = await pokemonHabitatResponse.json();
         const { habitat } = pokemonHabitatResult;
 
-        return this._isDataAvailable(habitat?.name); 
+        return this._isDataAvailable(habitat?.name);
     }
 
     getPokemonAbilities = async (data) => {
@@ -195,11 +195,11 @@ export default class PokemonService {
             }
         })
 
-        return abilities; 
+        return abilities;
     }
 
     getPokemonImage = data => {
-        return this._isDataAvailable(data.other?.['official-artwork']?.['front_default']); 
+        return this._isDataAvailable(data.other?.['official-artwork']?.['front_default']);
     }
 
     getPokemonGender = async (data) => {
@@ -216,11 +216,18 @@ export default class PokemonService {
             return genderData['pokemon_species_details']?.find(genderItem => genderItem['pokemon_species']?.['name'] === data);
         })
 
-        return gender.map(({ name }) => name); 
+        return gender.map(({ name }) => name);
     }
 
     getPokemonTypes = data => {
-        return data.map(({ type: { name } }) => name); 
+        return data.map(({ type: { name } }) => name);
+    }
+
+    getFilteredTypes = async (type) => {
+        const typeResponse = await fetch(`https://pokeapi.co/api/v2/type/${type}`);
+        const { pokemon } = await typeResponse.json();
+
+        return pokemon.map(({ pokemon: { name } }) => ({ name }));
     }
 
     _isDataAvailable = data => {

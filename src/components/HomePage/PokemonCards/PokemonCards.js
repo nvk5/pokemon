@@ -29,7 +29,7 @@ const PokemonCards = ({ pokemonCards, loadingCards, cardsLoaded, fillDataGap, da
     }, [getData, cacheCards, cardsCache]);
 
     if (loadingCards) {
-        return <Spinner home/>
+        return <Spinner sm/>
     }
 
     return (

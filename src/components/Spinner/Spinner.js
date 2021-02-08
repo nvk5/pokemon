@@ -7,9 +7,9 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-const Spinner = ({home}) => {
+const Spinner = ({ sm }) => {
     const spinner = useRef(null);
-    
+
     const setRandomSpinner = useCallback(() => {
         const images = [Pokemon1, Pokemon2];
 
@@ -21,7 +21,7 @@ const Spinner = ({home}) => {
     }, [setRandomSpinner])
 
     return (
-        <div className={home ? "spinner spinner--home" : "spinner spinner--pokemon"}>
+        <div className={sm ? "spinner spinner--sm" : "spinner spinner--pokemon"}>
             <img className="spinner__img img" alt="spinner" ref={spinner} />
             <p className="spinner__text">loading...</p>
         </div>

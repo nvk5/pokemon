@@ -2,7 +2,7 @@
     display: grid;
     grid-template: "headline headline"
                     "image main"
-                    "extra stats"
+                    "type stats"
                     "evolution evolution" / 1fr 1fr;
     grid-gap: 20px;
 
@@ -10,7 +10,7 @@
         grid-template: "headline headline"
                         "image image"
                         "main main"
-                        "extra extra"
+                        "type type"
                         "stats stats"
                         "evolution evolution" / 1fr 1fr;
     }
@@ -47,12 +47,12 @@
         grid-area: evolution;
     }
 
-    &__details--extra {
-        grid-area: extra;
+    &__details--type {
+        grid-area: type;
     }
 
     &__details--main,
-    &__details--extra {
+    &__details--type {
         display: grid;
         grid-gap: 20px;
     }
@@ -113,18 +113,14 @@
         }
     }
 
-    &__extra-list {
+    &__type-list {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
         grid-auto-rows: 40px;
         grid-gap: 10px;
     }
 
-    &__extra-list-item {
-        box-shadow: 0 0 3px #000;
-        text-transform: capitalize;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    &__type-headline {
+        margin-bottom: 20px;
     }
 }

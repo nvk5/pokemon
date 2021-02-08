@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import MainHeadline from '../MainHeadline';
 import { connect } from 'react-redux';
 import { hideMenu } from '../../redux/actions';
-import PokemonList from './PokemonList';
+import SearchList from './SearchList';
 import Search from './Search';
 import PokemonCards from './PokemonCards';
 import './HomePage.scss';
@@ -10,6 +10,7 @@ import './HomePage.scss';
 const HomePage = ({ hideMenu }) => {
     useEffect(() => window.scrollTo(0, 0));
     useEffect(() => hideMenu(), [hideMenu]);
+    useEffect(() => document.title = 'Pokemon');
 
     return (
         <section className="home">
@@ -17,7 +18,7 @@ const HomePage = ({ hideMenu }) => {
             <div className="home__aside">
                 <Search />
                 <div className="home__search-result">
-                    <PokemonList />
+                    <SearchList />
                 </div>
             </div>
             <div className="home__cards">

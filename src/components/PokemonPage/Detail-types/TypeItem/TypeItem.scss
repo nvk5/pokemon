@@ -1,0 +1,21 @@
+.type-item {
+    box-shadow: 0 0 3px #000;
+    text-transform: capitalize;
+    display: flex;
+
+    &__link {
+        color: #000;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all .5s ease;
+
+        &:hover,
+        &:focus {
+            background: #000;
+            color: #fff;
+        }
+    }
+}

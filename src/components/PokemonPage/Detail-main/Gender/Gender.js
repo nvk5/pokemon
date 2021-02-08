@@ -1,5 +1,5 @@
 import React from 'react';
-import useNoData from '../../customHooks/useNoData';
+import useNoData from '../../../customHooks/useNoData';
 import './Gender.scss';
 
 const female = '♀';

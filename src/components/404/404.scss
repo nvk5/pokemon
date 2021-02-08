@@ -38,4 +38,25 @@
             font-size: 2.75rem;
         }
     }
+
+    &__back {
+        background: none;
+        border: none;
+        font-size: 30px;
+        margin-top: 20px;
+        cursor: pointer;
+        color: #fff;
+        position: relative;
+
+        &::before {
+            content: '\2190';
+            position: absolute;
+            left: -50%;
+        }
+
+        &:hover,
+        &:focus {
+            text-decoration: underline;
+        }
+    }
 }

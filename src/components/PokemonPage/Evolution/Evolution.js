@@ -6,7 +6,7 @@ import './Evolution.scss';
 const View = ({ data }) => (
     data.map(({ id, name, image }) => (
         <li key={id} className="evolution__item">
-            <Link to={name} className="evolution__link link">
+            <Link to={`/${name}`} className="evolution__link link">
                 <img className="img evolution__img" src={image} alt={name} />
                 <span className="evolution__name">{name}</span>
             </Link>

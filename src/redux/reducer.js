@@ -6,6 +6,9 @@ const initialState = {
     listCache: false,
     cardsCache: false,
     pokemonList: [],
+    filteredTypes: [],
+    loadingFilter: true,
+    filteredTypesFail: false,
     loadingList: true,
     error: false,
     searchValue: '',
@@ -42,6 +45,19 @@ const reducer = (state = initialState, action) => {
                 searchValue: '',
                 
             }
+        case 'TYPES_LOADED':
+            return {
+                ...state,
+                loadingFilter: false,
+                filteredTypes: action.payload,
+                filteredTypesFail: false
+            }
+        case 'TYPES_FAIL':
+            return {
+                ...state,
+                loadingFilter: false,
+                filteredTypesFail: true,
+            }
         case 'LOAD_MORE_DATA':
             return {
                 ...state,
@@ -77,6 +93,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 pageFail: false,
                 loadingPokemon: true
+            }
+        case 'LOADING_FILTER_STATUS_UPDATED':
+            return {
+                ...state,
+                loadingFilter: true
             }
         case 'PAGE_NOT_FOUND':
             return {
