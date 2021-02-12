@@ -3,7 +3,6 @@ import Chart from "react-apexcharts";
 import useNoData from '../../customHooks/useNoData';
 import './Stats.scss';
 
-
 const setChart = (data) => {
     const labels = [];
     const stats = [];

@@ -14,10 +14,9 @@
         font-size: 1.25rem;
         padding: 15px 20px;
         padding-left: 25px;
-        background: none;
-        border: none;
         position: relative;
-        cursor: pointer;
+        display: inline-block;
+        color: #000;
 
         &:hover,
         &:focus {

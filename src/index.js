@@ -4,22 +4,19 @@ import { Provider } from 'react-redux';
 import { HashRouter as Router } from 'react-router-dom';
 import store from './redux/store';
 import ErrorBoundry from './components/ErrorBoundary';
-import { PokemonProvider } from './service/pokemonContext';
 import App from './components/App';
 import './index.css';
 
 ReactDOM.render(
-  <Provider store={store}>
-    <ErrorBoundry>
-      <PokemonProvider>
+  <React.StrictMode>
+    <Provider store={store}>
+      <ErrorBoundry>
         <Router>
-          <React.StrictMode>
-            <App />
-          </React.StrictMode>,
+          <App />
         </Router>
-      </PokemonProvider>
-    </ErrorBoundry>
-  </Provider>,
+      </ErrorBoundry>
+    </Provider>,
+  </React.StrictMode>,
   document.getElementById('root')
 );
 

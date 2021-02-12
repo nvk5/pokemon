@@ -8,7 +8,7 @@ const TypeItem = ({ data }) => {
     return (
         data.map((item, index) => (
             <li className="type-item" key={index}>
-                <Link className="type-item__link link" to={`${url}/${item}`}>{item}</Link>
+                <Link className="type-item__link link" to={`${url}?type=${item}`}>{item}</Link>
             </li>
         ))
     )

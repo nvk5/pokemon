@@ -1,35 +1,23 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { cardsLoaded, fillDataGap, cacheCards } from '../../../redux/actions';
-import { usePokemonService } from '../../../service/pokemonContext';
+import { useDispatch, useSelector } from 'react-redux';
 import LoadMoreButton from '../LoadMoreButton/LoadMoreButton';
-import useData from '../../customHooks/useData';
 import Card from '../Card';
 import Spinner from '../../Spinner';
+import getPokemonCards from '../../../redux/pokemonCards/pokemonCardsActions';
 import './PokemonCards.scss';
 
-
-const PokemonCards = ({ pokemonCards, loadingCards, cardsLoaded, fillDataGap, dataGap, cacheCards, cardsCache }) => {
-    const service = usePokemonService();
-    const { getData } = useData(cardsLoaded, service.getMorePokemons);
-
-    useEffect(() => {
-        if (service.step > 898 && dataGap) {
-            fillDataGap();
-            service.fillDataGap();
-        }
-    }, [service.step, fillDataGap, dataGap, service]);
-
+const PokemonCards = () => {
+    const dispatch = useDispatch();
+    const { pokemonCards, pokemonCardsLoading, pokemonCardsError, pokemonCardsCache, loadMore: { offset, limit } } = useSelector(state => state.pokemonCards);
 
     useEffect(() => {
-        if (!cardsCache) {
-            cacheCards();
-            getData();
+        if (!pokemonCardsCache) {
+            dispatch(getPokemonCards(limit, offset));
         }
-    }, [getData, cacheCards, cardsCache]);
+    }, [pokemonCardsCache, dispatch, limit, offset]);
 
-    if (loadingCards) {
-        return <Spinner sm/>
+    if (pokemonCardsLoading) {
+        return <Spinner sm />
     }
 
     return (
@@ -39,13 +27,10 @@ const PokemonCards = ({ pokemonCards, loadingCards, cardsLoaded, fillDataGap, da
                     return <Card key={data.id} data={data} />
                 })}
             </ul>
+            {pokemonCardsError && <p>Something goes wrong</p>}
             <LoadMoreButton />
         </>
     )
 }
 
-const mapStateToProps = ({ pokemonCards, loadingCards, dataGap, cardsCache }) => ({ loadingCards, pokemonCards, dataGap, cardsCache });
-
-const mapDispatchToProps = { cardsLoaded, fillDataGap, cacheCards };
-
-export default connect(mapStateToProps, mapDispatchToProps)(PokemonCards);
+export default PokemonCards;
