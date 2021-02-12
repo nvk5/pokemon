@@ -1,8 +1,5 @@
 export default class PokemonService {
     apiBase = 'https://pokeapi.co/api/v2/';
-    offset = 9;
-    step = 1;
-    MAX_DATA = 10220;
 
     getResource = async (url) => {
         const result = await fetch(`${this.apiBase}${url}`);
@@ -14,21 +11,13 @@ export default class PokemonService {
         return await result.json();
     }
 
-    getMorePokemons = async () => {
-        const urlData = [];
+    getMorePokemons = async (limit, offset) => {
+        const { results } = await this.getResource(`pokemon/?limit=${limit}&offset=${offset}`);
 
-        for (let i = this.step; i <= this.offset; i++) {
-            if (i > this.MAX_DATA) break;
-            if (i > 898 && i < 10001) continue;
-            urlData.push(`https://pokeapi.co/api/v2/pokemon/${i}`)
-        }
-
-        const dataResponse = await Promise.allSettled(urlData.map(url => fetch(url)));
-        const dataSuccess = dataResponse.filter(resp => resp.status === 'fulfilled').map(item => item.value);
+        const dataResponse = await Promise.allSettled(results.map(({ url }) => fetch(url)));
+        const dataSuccess = dataResponse.filter(resp => resp.status === 'fulfilled' && resp.value.ok).map(item => item.value);
         const dataArray = await Promise.all(dataSuccess.map(data => data.json()));
 
-        this.offset += 9;
-        this.step += 9;
 
         return dataArray.map(pokemon => {
             return {
@@ -232,12 +221,5 @@ export default class PokemonService {
 
     _isDataAvailable = data => {
         return data ? data : 'No data'
-    }
-
-    fillDataGap = () => {
-        if (this.step > 898) {
-            this.step = 10001;
-            this.offset = 10009
-        }
     }
 }

@@ -1,25 +1,26 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { connect } from 'react-redux';
 import Search from '../HomePage/Search';
 import NavBurger from '../NavBurger';
 import './Navigation.scss';
 
-const Navigation = ({ showMobMenu }) => {
+const Navigation = () => {
+    const { showMenu } = useSelector(state => state.navigationSm);
 
     useEffect(() => {
-        if (showMobMenu) {
+        if (showMenu) {
             document.body.classList.add('menu-open')
         } else {
             document.body.classList.remove('menu-open')
         }
-    }, [showMobMenu])
+    }, [showMenu])
 
     return (
         <>
-            <NavBurger/>
+            <NavBurger />
             <nav className="nav">
-                <Search sm/>
+                <Search sm />
                 <ul className="nav__list">
                     <li className="nav__item">
                         <NavLink className="nav__link link" to={{ pathname: '/' }} exact>Home</NavLink>
@@ -33,7 +34,4 @@ const Navigation = ({ showMobMenu }) => {
     )
 }
 
-const mapStateToProps = ({ showMobMenu }) => ({ showMobMenu });
-
-
-export default connect(mapStateToProps)(Navigation);
+export default Navigation;

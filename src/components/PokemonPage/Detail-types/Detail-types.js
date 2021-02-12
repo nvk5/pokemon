@@ -1,24 +1,24 @@
 import React from 'react';
-import { Switch, Route, useRouteMatch } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Weaknesses from './Weaknesses';
 import Strengths from './Strengths';
 import Type from './Type';
 import FilteredTypes from './FilteredTypes';
 
 const DetailTypes = ({ data: { types, weaknesses, strengths } }) => {
-    const { path } = useRouteMatch();
+    const { search } = useLocation();
+    const type = new URLSearchParams(search).get('type');
+
+    if (type) {
+        return <FilteredTypes type={type}/>
+    }
 
     return (
-        <Switch>
-            <Route exact path={`${path}`}>
-                <Type data={types} />
-                <Weaknesses data={weaknesses} />
-                <Strengths data={strengths} />
-            </Route>
-            <Route path={`${path}/:type`}>
-                <FilteredTypes />
-            </Route>
-        </Switch>
+        <>
+            <Type data={types} />
+            <Weaknesses data={weaknesses} />
+            <Strengths data={strengths} />
+        </>
     )
 }
 

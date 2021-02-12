@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { hideMenu } from '../../redux/actions';
+import React from 'react';
+import useDocumentTitle from '../customHooks/useDocumentTitle';
+import useNavigationSm from '../customHooks/useNavigationSm';
 
-const AdditionalPage = ({ hideMenu }) => {
-
-    useEffect(() => hideMenu(), [hideMenu]);
+const AdditionalPage = () => {
+    useNavigationSm();
+    useDocumentTitle('Additional Page');
 
     return (
         <section>
@@ -13,6 +13,4 @@ const AdditionalPage = ({ hideMenu }) => {
     )
 }
 
-const mapDispatchToProps = { hideMenu };
-
-export default connect(null, mapDispatchToProps)(AdditionalPage);
+export default AdditionalPage;

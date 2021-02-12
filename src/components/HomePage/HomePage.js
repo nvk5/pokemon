@@ -1,16 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import MainHeadline from '../MainHeadline';
-import { connect } from 'react-redux';
-import { hideMenu } from '../../redux/actions';
 import SearchList from './SearchList';
 import Search from './Search';
 import PokemonCards from './PokemonCards';
 import './HomePage.scss';
+import useNavigationSm from '../customHooks/useNavigationSm';
+import useDocumentTitle from '../customHooks/useDocumentTitle';
 
-const HomePage = ({ hideMenu }) => {
-    useEffect(() => window.scrollTo(0, 0));
-    useEffect(() => hideMenu(), [hideMenu]);
-    useEffect(() => document.title = 'Pokemon');
+const HomePage = () => {
+    useDocumentTitle(`Pokemon`);
+    useNavigationSm();
 
     return (
         <section className="home">
@@ -28,6 +27,4 @@ const HomePage = ({ hideMenu }) => {
     )
 }
 
-const mapStateToProps = { hideMenu };
-
-export default connect(null, mapStateToProps)(HomePage);
+export default HomePage;

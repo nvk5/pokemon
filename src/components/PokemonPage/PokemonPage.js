@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { pokemonLoaded, pageNotFound, updateLoadingStatus } from '../../redux/actions';
-import { usePokemonService } from '../../service/pokemonContext';
-import useData from '../customHooks/useData';
+import { Link, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import MainHeadline from '../MainHeadline';
 import Stats from './Stats';
 import Evolution from './Evolution';
@@ -10,62 +8,53 @@ import DetailMain from './Detail-main';
 import DetailTypes from './Detail-types';
 import Spinner from '../Spinner';
 import NonExistentPage from '../404';
+import getPokemonPage from '../../redux/pokemonPage/pokemonPageActions';
+import useNavigationSm from '../customHooks/useNavigationSm';
+import { cleanSearch } from '../../redux/pokemonList/pokemonListActions';
+import useDocumentTitle from '../customHooks/useDocumentTitle';
 import './PokemonPage.scss';
-import { Link, useParams } from 'react-router-dom';
 
-
-const PokemonPage = ({ singlePokemonData: data, pokemonLoaded, loadingPokemon, pageFail, pageNotFound, updateLoadingStatus }) => {
-    const { getCurrentPokemon } = usePokemonService();
-    const { getData } = useData(pokemonLoaded, getCurrentPokemon, pageNotFound);
+const PokemonPage = () => {
     const { id } = useParams();
+    const dispatch = useDispatch();
+    const { pokemonPage, pokemonPageLoading, pokemonPageError } = useSelector(state => state.pokemonPage);
+    
+    useNavigationSm();
+    useDocumentTitle(
+        pokemonPageError ? '404 - Page does not exists' : `Pokemon - ${id[0].toUpperCase()}${id.slice(1)}`
+    );
+    useEffect(() => dispatch(cleanSearch()), [dispatch]); 
+    useEffect(() => dispatch(getPokemonPage(id)), [dispatch, id]);    
 
-    useEffect(() => {
-        updateLoadingStatus();
-        window.scrollTo(0, 0);
-        getData(id);
-    }, [getData, id, updateLoadingStatus]);
-
-    useEffect(() => {
-        const name = `${id[0].toUpperCase()}${id.slice(1)}`;
-
-        if (!pageFail) {
-            document.title = `Pokemon - ${name}`;
-        }
-    });
-
-    if (pageFail) {
+    if (pokemonPageError) {
         return <NonExistentPage />
     }
 
-    if (loadingPokemon) {
+    if (pokemonPageLoading) {
         return <Spinner />
     }
 
     return (
         <section className="pokemon">
-            <MainHeadline headline={data.name} />
+            <MainHeadline headline={pokemonPage.name} />
             <div className="pokemon__image">
-                <img className="img" src={data.image} alt={data.name} />
+                <img className="img" src={pokemonPage.image} alt={pokemonPage.name} />
             </div>
             <div className="pokemon__details pokemon__details--main">
-                <DetailMain data={data}/>
+                <DetailMain data={pokemonPage} />
             </div>
             <div className="pokemon__details pokemon__details--type">
-                <DetailTypes data={data}/>
+                <DetailTypes data={pokemonPage} />
             </div>
             <div className="pokemon__details pokemon__details--stats">
-                <Stats data={data.stats} />
+                <Stats data={pokemonPage.stats} />
             </div>
             <div className="pokemon__details pokemon__details--evolution">
-                <Evolution data={data.evolution} />
+                <Evolution data={pokemonPage.evolution} />
             </div>
             <Link to={{ pathname: '/' }} className="pokemon__go-home link">Discover more pokemons</Link>
         </section>
     )
 }
 
-const mapStateToProps = ({ singlePokemonData, loadingPokemon, pageFail }) => ({ singlePokemonData, loadingPokemon, pageFail })
-
-const mapDispatchToProps = { pokemonLoaded, pageNotFound, updateLoadingStatus };
-
-export default connect(mapStateToProps, mapDispatchToProps)(PokemonPage);
+export default PokemonPage;

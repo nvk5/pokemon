@@ -1,32 +1,38 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { listLoaded, cacheList } from '../../../redux/actions';
-import { usePokemonService } from '../../../service/pokemonContext';
-import useData from '../../customHooks/useData';
 import Spinner from '../../Spinner';
 import PokemonList from '../../PokemonList';
-import './SearchList.scss';
+import { useDispatch, useSelector } from 'react-redux';
+import getPokemonList from '../../../redux/pokemonList/pokemonListActions';
 
 const FilterFail = () => (
     <p className="pokemon-list__failed">Pokemons not found</p>
 )
 
-const SearchList = ({ pokemonList, loadingList, listLoaded, listCache, cacheList }) => {
-    const { getAllPokemons } = usePokemonService();
-    const { getData } = useData(listLoaded, getAllPokemons);
-
-    useEffect(() => {
-        if (!listCache) {
-            if (window.matchMedia('(min-width: 768px)').matches) {
-                cacheList();
-                getData()
-            }
+const SearchList = () => {
+    const dispatch = useDispatch();
+    const { pokemonListLoading, pokemonListError, pokemonListSearch, pokemonListCache } = useSelector(state => state.pokemonList);
+    const pokemonList = useSelector(state => {
+        if (pokemonListSearch) {
+            return state.pokemonList.pokemonList.filter(item => item.name.includes(pokemonListSearch));
         }
 
-    }, [getData, listCache, cacheList]);
+        return state.pokemonList.pokemonList
+    })
 
-    if (loadingList) {
+    useEffect(() => {
+        if (!pokemonListCache) {
+            if (window.matchMedia('(min-width: 768px)').matches) {
+                dispatch(getPokemonList());
+            }
+        }
+    }, [dispatch, pokemonListCache]);
+
+    if (pokemonListLoading) {
         return <Spinner sm />
+    }
+
+    if (pokemonListError) {
+        return <p>Something goes wrong</p>
     }
 
     if (pokemonList.length === 0) {
@@ -40,21 +46,4 @@ const SearchList = ({ pokemonList, loadingList, listLoaded, listCache, cacheList
     )
 }
 
-const mapStateToProps = ({ pokemonList, loadingList, searchValue, listCache }) => {
-    const filteredPokemons = pokemonList.filter(item => item.name.includes(searchValue));
-
-    if (searchValue) {
-        return {
-            listCache,
-            loadingList,
-            pokemonList: filteredPokemons,
-
-        }
-    }
-
-    return { loadingList, pokemonList, listCache }
-}
-
-const mapDispatchToProps = { listLoaded, cacheList };
-
-export default connect(mapStateToProps, mapDispatchToProps)(SearchList);
+export default SearchList;
